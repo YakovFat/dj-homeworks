@@ -6,6 +6,44 @@
     <div class="container">
         <div class="header">
             <h1>Сравнение телефонов</h1>
+                <table cellspacing="5" cellpadding="10"  width="100%">
+                    <tr>
+                        <th>Модель:</th><th>{{sam.0.name}}</th><th>{{apple.0.name}}</th>
+                    </tr>
+                    <tr>
+                        <td>Цена:</td><td>{{sam.0.price}}</td><td>{{apple.0.price}}</td>
+                    </tr>
+                    <tr>
+                        <td>Операционная система:</td><td>{{sam.0.os}}</td><td>{{apple.0.os}}</td>
+                    </tr>
+                    <tr>
+                        <td>Разрешение экрана:</td><td>{{sam.0.screen_resolution}}</td><td>{{apple.0.screen_resolution}}</td>
+                    </tr>
+                    <tr>
+                        <td>Оперативная память:</td><td>{{sam.0.ram}}</td><td>{{apple.0.ram}}</td>
+                    </tr>
+                    <tr>
+                        <td>Вес:</td><td>{{sam.0.weight}}</td><td>{{apple.0.weight}}</td>
+                    </tr>
+                    <tr>
+                        <td>NFC:</td><td>{{sam.0.nfc}}</td><td>{{apple.0.nfc}}</td>
+                    </tr>
+                    <tr>
+                        <td>Цвет:</td><td>{{sam.0.color}}</td><td>{{apple.0.color}}</td>
+                    </tr>
+                    <tr>
+                        <td>Батарея:</td><td>{{sam.0.battery}}</td><td>{{apple.0.battery}}</td>
+                    </tr>
+                    <tr>
+                        <td>Двойная камера:</td><td>{{sam.0.dual_camera}}</td><td>{{apple.0.dual_camera}}</td>
+                    </tr>
+                    <tr>
+                        <td>FaceID:</td><td>-</td><td>{{apple.0.face_id}}</td>
+                    </tr>
+                    <tr>
+                        <td>Безрамочный экран:</td><td>{{sam.0.borderless_screen}}</td><td>-</td>
+                    </tr>
+                </table>
         </div>
     </div>
 {% endblock %}
