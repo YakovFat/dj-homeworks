@@ -11,24 +11,17 @@
         <div class="sort-block">
             {# Здесь должен быть раздел с сортировкой #}
             <p>Сортировка по:
-                <a href="http://127.0.0.1:8000/catalog/?sort=max_price">начиная с дорогих</a>
-                <a href="http://127.0.0.1:8000/catalog/?sort=min_price">начиная с дешевых</a>
-                <a href="http://127.0.0.1:8000/catalog/?sort=name">названию</a>
+                <a href="/catalog/?sort=max_price">начиная с дорогих</a>
+                <a href="/catalog/?sort=min_price">начиная с дешевых</a>
+                <a href="/catalog/?sort=name">названию</a>
             </p>
-            {% for i in sort_name %}
-            <ul>
-                <li>{{i.name}}</li>
-                <li>{{i.price}}</li>
-                <li><img src={{i.image}}></li>
-            </ul>
-            {% endfor %}
         </div>
 
         <div class="content">
             {# Здесь должен отображаться каталог с телефонами #}
             {% for i in catalog %}
             <ul>
-                <li>{{i.name}}</li>
+                <li><h2><a href="/catalog/{{i.slug}}">{{i.name}}</a></h2></li>
                 <li>{{i.price}}</li>
                 <li><img src={{i.image}}></li>
             </ul>
