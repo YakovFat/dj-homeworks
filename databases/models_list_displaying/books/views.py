@@ -1,6 +1,5 @@
 from django.views import generic
 from books.models import Book
-from django.shortcuts import get_object_or_404
 
 
 class BookListView(generic.ListView):
@@ -18,5 +17,15 @@ class BookListView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        if self.kwargs:
+            curdate = self.kwargs['pub_date']
+            previous_object = Book.objects.order_by('pub_date').filter(pub_date__lt=curdate).last()
+            if previous_object:
+                previous_date = str(previous_object.pub_date)
+                context['previous_date'] = previous_date
+            next_object = Book.objects.order_by('pub_date').filter(pub_date__gt=curdate).first()
+            if next_object:
+                next_date = str(next_object.pub_date)
+                context['next_date'] = next_date
         return context
 
