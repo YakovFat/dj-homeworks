@@ -1,6 +1,6 @@
 import datetime
 import os
-
+import os.path
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.conf import settings
@@ -15,10 +15,7 @@ class FileList(TemplateView):
         # Реализуйте алгоритм подготавливающий контекстные данные для шаблона по примеру:
         data_input = None
         if date is not None:
-            date = date.split('-')
-            data_input = datetime.datetime(int(date[0]), int(date[1]),
-                                           int(date[2])).date()
-
+            data_input = datetime.datetime.strptime(date, '%Y-%m-%d')
         for file in files:
             file_info = os.stat(os.path.join(settings.FILES_PATH, file))
             if data_input is not None and datetime.datetime.utcfromtimestamp(
@@ -37,12 +34,12 @@ class FileList(TemplateView):
 def file_content(request, name):
     # Реализуйте алгоритм подготавливающий контекстные данные для шаблона по примеру:
     path = os.path.join(settings.FILES_PATH, name)
-    try:
+    if os.path.exists(path):
         with open(str(path), encoding='utf8') as f:
             file = f.read()
-    except FileNotFoundError as e:
-        name = str(e)
-        file = str(e)
+    else:
+        name = 'Not found'
+        file = 'Not found'
     return render(
         request,
         'file_content.html',
