@@ -1,3 +1,7 @@
+
+<!-- для загрузки фильтров самодельных -->
+{% load news_filter %}
+<!-- обязательно рестарт сервер-->
 <!DOCTYPE html>{% load static %}
 <html>
   <head>
@@ -16,42 +20,33 @@
     {% block content %}
       <div class="row">
         <h1 class="col s12">Инфляция в России</h1>
-        <div class="col s12 m8">
+        <ul class="col s12 m8">
           <table>
-            <tr style="font-weight:bold">
-              {% for i in first_column %}
-              {% if forloop.last %}
-              <th  style="background: gray" > {{i}} </th>
-              {%else%}
-              <th> {{i}} </th>
-              {%endif%}
-              {% endfor %}
-            </tr>
-
-            {% for items in info %}
-              <tr>
-                {% for i in items %}
-                {% if forloop.last %}
-                <td  style="background: gray" > {{i}} </td>
-                {%endif%}
-                {% if forloop.first%}
-                  <td> {{i}} </td>
-                {%endif%}
-                {% if not forloop.first and not forloop.last%}
-                  {% if i < 0 %} <td style="background: green"> {{i}} </td>
-                  {% elif i > 1 and i < 2 %} <td style="background: LightCoral"> {{i}} </td>
-                  {% elif i >= 2 and i < 5 %} <td style="background: Crimson"> {{i}} </td>
-                  {% elif i >= 5 %} <td style="background: DarkRed"> {{i}} </td>
-                  {% else %} <td> {{i}} </td>
-                  {%endif%}
-                {%endif%}
-                {% endfor %}
-              </tr>
+            {% for row in data %}
+              {% if forloop.first %}
+                <tr>
+                  {% for cell in row %}
+                    {% if forloop.last %}
+                      <th bgcolor="#808080"> {{ cell }} </th>
+                    {% else %}
+                     <th> {{ cell }} </th>
+                    {% endif %}
+                  {% endfor %}
+                </tr>
+              {% else %}
+                <tr>
+                  {% for cell in row %}
+                     <td bgcolor={{cell|color_for_cell:forloop.counter0}}> {{ cell }} </td>
+                  {% endfor %}
+                </tr>
+              {% endif %}
             {% endfor %}
-            </table>
-        </div>
+          </table>
+
+        <!-- Ваша логика -->
+
+        </ul>
       </div>
     {% endblock %}
 
   </body>
-</html>

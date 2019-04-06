@@ -1,25 +1,6 @@
 {% extends 'app/home.html' %}
 
-{% block activ %}
-<li class="active"><a href="{% url 'examples' %}">Примеры</a></li>
-<li><a href="{% url 'contacts' %}">Контакты</a></li>
-<li><a href="{% url 'about' %}">О проекте</a></li>
-{% endblock %}
-
-
 {% block content %}
-<h1 class="col s12">Каталог компьютеров Apple</h1>
-{% for item in items %}
-  <div class="col s12 m8">
-    <div class="card">
-      <div class="card-image">
-        {% include 'app/includes/image.html' %}
-      </div>
-      <div class="card-content">
-        <span class="card-title black-text">{{ item.title }}</span>
-        {{ item.text }}
-      </div>
-    </div>
-  </div>
-{% endfor %}
+  <h1 class="col s12">Каталог компьютеров Apple</h1>
+  {% include 'app/includes/image.html' %}
 {% endblock %}

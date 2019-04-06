@@ -27,8 +27,8 @@
                 </span>
                 {{ post.data.selftext|format_selftext:3 }}
                 <p>Дата: {{ post.data.created_utc|format_date }}</p>
-              <p>Рейтинг: {{ post.data.score|format_score }}</p>
-                <p>Число комментариев: {{ post.data.num_comments|format_num_comments}}</p>
+              <p>Рейтинг: {% if post.data.score %}{{ post.data.score|format_score}} {% else %} 'рейтинг отсутствует' {% endif %}</p>
+                <p>Число комментариев: {% if post.data.score %}{{ post.data.score|format_num_comments}}{% else %} 'оставьте отзыв' {% endif %}</p>
               </div>
               <div class="card-action">
                 <a href="{{ post.data.url }}">Ссылка на материал</a>

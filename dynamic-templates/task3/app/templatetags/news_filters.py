@@ -1,7 +1,5 @@
 from django import template
 from datetime import datetime
-import re
-
 
 register = template.Library()
 
@@ -38,12 +36,9 @@ def format_score(value):
 
 @register.filter
 def format_num_comments(value):
-    if value == 0:
-        return 'Оставьте отзыв'
-    elif 0 < value <= 50:
+    if 0 < value <= 50:
         return value
-    else:
-        return '50+'
+    return '50+'
 
 
 @register.filter
@@ -52,9 +47,8 @@ def format_selftext(value, count):
     if len(value_split) > count*2:
         value_split = value_split[:count] + ['...'] + value_split[-count:]
         value = ' '.join(value_split)
-        return value
-    else:
-        return value
+    return value
+
 
 
 
