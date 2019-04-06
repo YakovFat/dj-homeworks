@@ -1,6 +1,8 @@
 import datetime
 import os
 import os.path
+
+from django.http import Http404
 from django.shortcuts import render
 from django.views.generic import TemplateView
 from django.conf import settings
@@ -34,12 +36,10 @@ class FileList(TemplateView):
 def file_content(request, name):
     # Реализуйте алгоритм подготавливающий контекстные данные для шаблона по примеру:
     path = os.path.join(settings.FILES_PATH, name)
-    if os.path.exists(path):
-        with open(str(path), encoding='utf8') as f:
-            file = f.read()
-    else:
-        name = 'Not found'
-        file = 'Not found'
+    if not os.path.exists(path):
+        raise Http404
+    with open(str(path), encoding='utf8') as f:
+        file = f.read()
     return render(
         request,
         'file_content.html',
