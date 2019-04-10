@@ -8,6 +8,7 @@ __pycache__/
 *.sqlite3
 env/
 venv/
+vevn/
 
 ### Project specific ###
 settings_local.py
