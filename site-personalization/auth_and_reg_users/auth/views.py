@@ -1,38 +1,56 @@
-from django.shortcuts import render, redirect
-from django.views.generic import FormView
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import authenticate, login
-from django.contrib.auth.models import User
+from django.shortcuts import render, redirect, reverse
+from django.contrib.auth import authenticate, login, logout
+from .forms import UserLoginForm, UserSignupForm
+
 
 def home(request):
+    context = {'user': 'Гость'}
+    if str(request.user) != 'AnonymousUser':
+        context['user'] = str(request.user)
     return render(
         request,
-        'home.html'
+        'home.html',
+        context
     )
 
 
 def signup(request):
+    if request.method == 'POST':
+        register_form = UserSignupForm(request.POST)
+        if register_form.is_valid():
+            register_form.save()
+            return redirect(reverse('login_view'))
+    else:
+        register_form = UserSignupForm()
+
+    context = {'form': register_form}
     return render(
         request,
-        'signup.html'
+        'signup.html',
+        context
     )
 
 
-def my_login(request):
-    form = User
-    # if request.method == 'POST':
-    #     username = request.POST['username']
-    #     password = request.POST['password']
-    #     user = authenticate(request, username=username, password=password)
-    #     form = user
-    #     if user is not None:
-    #         login(request, user)
-    #         return redirect('/')
-    #     else:
-    #         # Return an 'invalid login' error message.
-    #         pass
+def login_view(request):
+    if request.method == 'POST':
+        register_form = UserLoginForm(request.POST)
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+    else:
+        register_form = UserLoginForm()
+    context = {'form': register_form}
     return render(
         request,
         'login.html',
-        {'form': form}
+        context
     )
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('home')
+
