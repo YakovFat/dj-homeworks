@@ -2,15 +2,11 @@ import csv
 
 from django.shortcuts import render
 from django.views import View
+from .models import FilePath, Table
 
-CSV_FILENAME = 'phones.csv'
-COLUMNS = [
-    {'name': 'id', 'width': 1},
-    {'name': 'name', 'width': 3},
-    {'name': 'price', 'width': 2},
-    {'name': 'release_date', 'width': 2},
-    {'name': 'lte_exists', 'width': 1},
-]
+CSV_FILENAME = str(FilePath.objects.get(pk=2))
+
+COLUMNS = Table.objects.all()
 
 
 class TableView(View):
@@ -27,6 +23,6 @@ class TableView(View):
                     row = {header.get(idx) or 'col{:03d}'.format(idx): value
                            for idx, value in enumerate(table_row)}
                     table.append(row)
-
-            result = render(request, 'table.html', {'columns': COLUMNS, 'table': table, 'csv_file': CSV_FILENAME})
+            csv_name = CSV_FILENAME.split('\\')[-1]
+            result = render(request, 'table.html', {'columns': COLUMNS, 'table': table, 'csv_file': csv_name})
         return result
