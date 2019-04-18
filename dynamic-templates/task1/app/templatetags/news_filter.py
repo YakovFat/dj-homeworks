@@ -4,11 +4,7 @@ register = template.Library()
 
 
 @register.filter
-def color_for_cell(value, cell):
-    if cell == 0:
-        return ''
-    if cell == 13:
-        return 'gray'
+def color_for_cell(value):
     if value:
         val = float(value)
         if val < 0:

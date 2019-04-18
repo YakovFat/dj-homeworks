@@ -27,7 +27,7 @@
                 <tr>
                   {% for cell in row %}
                     {% if forloop.last %}
-                      <th bgcolor="#808080"> {{ cell }} </th>
+                      <th bgcolor="gray"> {{ cell }} </th>
                     {% else %}
                      <th> {{ cell }} </th>
                     {% endif %}
@@ -36,7 +36,13 @@
               {% else %}
                 <tr>
                   {% for cell in row %}
-                     <td bgcolor={{cell|color_for_cell:forloop.counter0}}> {{ cell }} </td>
+                    {% if forloop.first %}
+                    <th bgcolor="white"> {{ cell }} </th>
+                    {% elif forloop.last %}
+                    <th bgcolor="gray"> {{ cell }} </th>
+                    {% else %}
+                     <td bgcolor={{cell|color_for_cell}}> {{ cell }} </td>
+                    {% endif %}
                   {% endfor %}
                 </tr>
               {% endif %}
