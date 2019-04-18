@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.views import View
 from .models import FilePath, Table
 
-CSV_FILENAME = str(FilePath.objects.get(pk=2))
+CSV_FILENAME = str(FilePath.objects.get(pk=1))
 
 COLUMNS = Table.objects.all()
 
