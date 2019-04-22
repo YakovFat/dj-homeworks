@@ -12,7 +12,6 @@ def stations_views(request):
 		st_first = stations.first()
 		st_last = stations.last()
 		x = (st_first.longitude + st_last.longitude) / 2
-
 		stations = stations.order_by('latitude')
 		st_first = stations.first()
 		st_last = stations.last()
