@@ -1,4 +1,5 @@
 from django.db import models
+import uuid
 
 
 class Player(models.Model):
@@ -8,13 +9,14 @@ class Player(models.Model):
         return self.player_id
 
 class Game(models.Model):
-    game_id = models.CharField(max_length=100, verbose_name='Название')
+    game_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False, verbose_name='Название')
+    # game_id = models.CharField(max_length=100, verbose_name='Название')
     is_finished = models.BooleanField(verbose_name='Игра завершена')
     player = models.ManyToManyField(Player, related_name='game', verbose_name='Игрок')
     number = models.IntegerField()
 
     def __str__(self):
-        return self.game_id
+        return str(self.game_id)
 
     def display_players(self):
         """

@@ -14,44 +14,44 @@ def show_home(request):
         cur_game = Game.objects.get(game_id=request.session.get('game_id'))
         if cur_game.is_finished:
             if Game.objects.filter(is_finished=False).count() == 0:
-                new_game = Game.objects.create(game_id=f'g{ids_generated}', is_finished=False, number=number)
+                new_game = Game.objects.create(is_finished=False, number=random.randint(0, 10))
                 cur_player = Player.objects.get(player_id=request.session.get('player_id'))
                 new_game.player.add(cur_player)
-                PlayerGameInfoAdd(new_game, cur_player, 0, True, True)
-                request.session['game_id'] = f'g{ids_generated}'
+                player_game_info_add(new_game, cur_player, 0, True, True)
+                request.session['game_id'] = str(new_game.game_id)
                 return redirect('/')
             else:
                 cur_game = Game.objects.get(is_finished=False)
                 cur_player = Player.objects.get(player_id=request.session.get('player_id'))
                 cur_game.player.add(cur_player)
-                PlayerGameInfoAdd(cur_game, cur_player, 0, False, False)
-                request.session['game_id'] = cur_game.game_id
+                player_game_info_add(cur_game, cur_player, 0, False, False)
+                request.session['game_id'] = str(cur_game.game_id)
                 return redirect('/')
         else:
             cur_player = Player.objects.get(player_id=request.session.get('player_id'))
-            if PlayerGameInfo.objects.all().filter(game_id=cur_game).get(player_id=cur_player).game_creater:
-                return redirect('/game-creator')
+            if PlayerGameInfo.objects.get(game_id=cur_game, player_id=cur_player).game_creater:
+                return redirect('game-creator')
             else:
-                return redirect('/game-play')
+                return redirect('game-play')
     else:
         # если сесия новая.....
         # если нет активных игр создаем новую игру и нового игрока
         if Game.objects.filter(is_finished=False).count() == 0:
-            new_game = Game.objects.create(game_id=f'g{ids_generated}', is_finished=False, number=number)
+            new_game = Game.objects.create(is_finished=False, number=number)
             new_player = Player.objects.create(player_id=f'p{ids_generated}')
             new_game.player.add(new_player)
-            PlayerGameInfoAdd(new_game, new_player, 0, True, True)
+            player_game_info_add(new_game, new_player, 0, True, True)
             request.session['player_id'] = f'p{ids_generated}'
-            request.session['game_id'] = f'g{ids_generated}'
+            request.session['game_id'] = str(new_game.game_id)
             return redirect('/')
         else:
             # если есть активная игра создаем игрока и присоединяем его к игре
             cur_game = Game.objects.get(is_finished=False)
             new_player = Player.objects.create(player_id=f'p{ids_generated}')
             cur_game.player.add(new_player)
-            PlayerGameInfoAdd(cur_game, new_player, 0, False, False)
+            player_game_info_add(cur_game, new_player, 0, False, False)
             request.session['player_id'] = f'p{ids_generated}'
-            request.session['game_id'] = cur_game.game_id
+            request.session['game_id'] = str(cur_game.game_id)
             return redirect('/')
 
 
@@ -83,7 +83,7 @@ def show_game_creator(request):
     return render(
         request,
         'game_creator.html',
-        {'context': context}
+        context
     )
 
 
@@ -107,13 +107,13 @@ def show_game_play(request):
         counter.move_count += 1
         counter.save()
         context['form'] = form
-        return render(request, 'game_play.html', {'form': form, 'context': context, })
+        return render(request, 'game_play.html', context)
     else:
         context['form'] = form
-        return render(request, 'game_play.html', {'form': form, 'context': context, })
+        return render(request, 'game_play.html', context)
 
 
-def PlayerGameInfoAdd(game, player, count, created, finished):
+def player_game_info_add(game, player, count, created, finished):
     PlayerGameInfo.objects.create(
         game_id=game,
         player_id=player,

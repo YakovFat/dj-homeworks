@@ -6,15 +6,15 @@
 {% block content %}
     <div class="container">
         <div class="header">
-            <h1>Загаданное число {{context.number}}</h1>
+            <h1>Загаданное число {{number}}</h1>
             <p>Второй игрок будет пытаться отгадать его</p>
-            {% if context.players_win %}
+            {% if players_win %}
                 {%for player in context.players_win%}
                 <h1>Игрок {{player.player_id}} угадал Ваше число с {{player.move_count}} раз ! </h1>
                 {% endfor %}
             {% endif %}
-            <p>{{context.text}}</p>
-            {% if context.game_over %}
+            <p>{{text}}</p>
+            {% if game_over %}
             <h1>Игра завершена! </h1>
                 <form action="/">
                     <input type="submit" value="Сыграть снова"/>

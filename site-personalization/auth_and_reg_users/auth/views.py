@@ -5,7 +5,7 @@ from .forms import UserLoginForm, UserSignupForm
 
 def home(request):
     context = {'user': 'Гость'}
-    if str(request.user) != 'AnonymousUser':
+    if request.user.is_authenticated:
         context['user'] = str(request.user)
     return render(
         request,
